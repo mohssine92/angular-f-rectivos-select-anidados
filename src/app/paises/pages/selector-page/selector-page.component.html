@@ -1,0 +1,93 @@
+<h1 class="mt-5">Selectores anidados</h1>
+<hr>
+
+
+<form  [formGroup]="miFormulario" (ngSubmit)="guardar()"> <!-- form group para controlar form con elementos hijos -->
+
+
+  <!-- Region -->
+  <div class="row mb-3">
+    <div class="col">
+
+        <label class="form-label">Continente:</label>
+        <select class="form-control"
+                formControlName="region"
+               > <!-- formcontrol name para controlar un elemento select o input -->
+
+            <option value=""> -- Seleccione Continente -- </option> <!-- opcion seleccionada por default  -->
+            <!-- values=string vacio hace que cuando form rectivo tenga valor por default string vacio esta Seleccione Continente sera la opcion seleccionada  -->
+
+            <option *ngFor="let region of regiones"
+                    [value]="region | lowercase"> {{ region }} </option> <!-- region es variable --> <!-- opciones dinamicas --> <!-- use pipe -->
+
+        </select>
+
+    </div>
+  </div>
+
+  <!-- Paises -->
+  <div class="row mb-3" *ngIf="paises.length !== 0" >
+    <div class="col">
+
+        <label class="form-label">País:</label>
+        <select class="form-control"
+                formControlName="pais">
+
+            <option value=""> -- Seleccione País -- </option> <!-- opcion por default , value => string -->
+            <option *ngFor="let pais of paises"
+                    [value]="pais.alpha3Code"> {{ pais.name }} </option> <!-- opcion dinamic , [value] => variable -->
+        </select>
+
+    </div>
+  </div>
+
+
+  <!-- Fronteras -->
+  <div class="row mb-3" *ngIf="fronteras.length > 0" >
+    <div class="col">
+
+        <label class="form-label">Fronteras:</label>
+        <select class="form-control"
+                formControlName="frontera">
+
+            <option value=""> -- Seleccione el país fronterizo -- </option>
+            <option *ngFor="let frontera of fronteras"
+                    [value]="frontera.alpha3Code"> {{ frontera.name }} </option>
+        </select>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="cargando">
+    <div class="col">
+        <div class="alert alert-primary">
+              Cargando...
+          </div>
+      </div>
+  </div> <!-- puede poner un gif o algo que este girando algo bonito  -->
+
+
+
+
+
+  <div class="row">
+    <div class="col">
+        <button class="btn btn-primary float-end"
+                type="submit">
+            Seleccionar
+        </button>
+    </div>
+  </div>
+
+
+
+</form>
+
+
+
+
+<h3>Formulario</h3>
+
+<pre>Valid: {{ miFormulario.valid }}</pre> <!-- recuerda miForumalario es prop de mi class , su valor es objeto de mi form rectiva asociado a form html  -->
+
+<!-- estos son prop del objeto de mi form reactivo - estan inicializado como string vacio atraves de los controls principalmente en la definicion del mismo   -->
+<pre>{{ miFormulario.value | json }}</pre>
